@@ -1,0 +1,19 @@
+# dependencias
+node_modules/
+
+# build del cliente React
+cliente/dist/
+
+# variables de entorno y credenciales
+.env
+.env.*
+!.env.example
+*.pem
+
+# logs
+npm-debug.log*
+*.log
+
+# sistema
+.DS_Store
+Thumbs.db

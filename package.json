@@ -1,0 +1,20 @@
+{
+  "name": "presupuesta-mi-web",
+  "version": "1.0.0",
+  "description": "API REST con Express que calcula presupuestos de proyectos web",
+  "type": "module",
+  "main": "src/server.js",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test",
+    "cliente": "npm --prefix cliente install && npm --prefix cliente run build"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
