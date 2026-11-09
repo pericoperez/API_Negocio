@@ -15,6 +15,8 @@
     "cliente": "npm --prefix cliente install && npm --prefix cliente run build"
   },
   "dependencies": {
-    "express": "^5.3.0"
+    "express": "^5.3.0",
+    "openai": "^7.53.0",
+    "pdfkit": "^0.20.2"
   }
 }

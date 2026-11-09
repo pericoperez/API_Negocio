@@ -27,7 +27,7 @@ function postPresupuesto(body) {
 test('GET /api/estado', async () => {
   const res = await fetch(`${url}/api/estado`);
   assert.equal(res.status, 200);
-  assert.deepEqual(await res.json(), { status: 'ok' });
+  assert.equal((await res.json()).status, 'ok');
 });
 
 test('GET /api/tarifas', async () => {

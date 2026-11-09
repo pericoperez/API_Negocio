@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import Asistente from './Asistente.jsx';
 
 const euros = (n) =>
   new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
@@ -75,7 +76,7 @@ export default function App() {
   const [sinConexion, setSinConexion] = useState(false);
   const [cargando, setCargando] = useState(false);
 
-  const [vista, setVista] = useState('calculadora');
+  const [vista, setVista] = useState('asistente');
   const [resultadosCasos, setResultadosCasos] = useState({});
 
   // Las tarifas vienen del servidor: el cliente no define precios
@@ -148,7 +149,6 @@ export default function App() {
       <main className="contenedor">
         <header className="cabecera">
           <div className="marca">
-            <span className="logo">€</span>
             <span>Presupuesta mi web</span>
           </div>
           <span className={`estado ${sinConexion ? 'off' : 'on'}`}>
@@ -161,10 +161,13 @@ export default function App() {
           <h1>
             Tu web, <span className="degradado">presupuestada al instante</span>
           </h1>
-          <p>Configura tu proyecto y el servidor calcula el precio en tiempo real con sus propias tarifas.</p>
+          <p>Cuéntanos qué necesitas: la IA propone servicios de nuestro catálogo, tú los revisas y el servidor calcula el precio con sus propias tarifas.</p>
         </section>
 
         <nav className="pestanas" role="tablist">
+          <button role="tab" aria-selected={vista === 'asistente'} onClick={() => setVista('asistente')}>
+            Asistente IA
+          </button>
           <button role="tab" aria-selected={vista === 'calculadora'} onClick={() => setVista('calculadora')}>
             Calculadora
           </button>
@@ -179,7 +182,9 @@ export default function App() {
           </div>
         )}
 
-        {vista === 'calculadora' ? (
+        {vista === 'asistente' ? (
+          <Asistente />
+        ) : vista === 'calculadora' ? (
           <div className="rejilla">
             <form className="cristal" onSubmit={(e) => e.preventDefault()}>
               <div className="paso">
@@ -339,7 +344,7 @@ export default function App() {
           </section>
         )}
 
-        <footer className="pie">0613 · Desarrollo web en entorno servidor · Node.js + Express + React</footer>
+        <footer className="pie">0613 · Desarrollo web en entorno servidor · Node.js + Express + React + OpenAI</footer>
       </main>
     </div>
   );
