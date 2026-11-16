@@ -27,6 +27,32 @@ const exigirJSON = (req, res, next) => {
   next();
 };
 
+// GET / — información útil cuando se accede a la raíz del proyecto
+app.get('/', (req, res) => {
+  const frontendDisponible = existsSync(dist);
+  // Si la interfaz está compilada, se sirve directamente
+  if (frontendDisponible) {
+    return res.sendFile('index.html', { root: dist });
+  }
+  res.status(200).json({
+    status: 'ok',
+    api: '/api',
+    frontend: frontendDisponible ? 'disponible' : 'no compilado',
+    instrucciones: frontendDisponible
+      ? 'Abre la raíz del servidor para ver la interfaz.'
+      : 'Ejecuta "npm run cliente" para generar la interfaz de React y luego vuelve a abrir la raíz.',
+    rutas: [
+      '/api/estado',
+      '/api/tarifas',
+      '/api/catalogo',
+      '/api/presupuesto',
+      '/api/propuesta',
+      '/api/presupuesto/detalle',
+      '/api/presupuesto/pdf',
+    ],
+  });
+});
+
 // GET /api/estado — comprobación de que el servicio funciona
 app.get('/api/estado', (req, res) => {
   res.json({ status: 'ok', ia: Boolean(process.env.OPENAI_API_KEY) });
