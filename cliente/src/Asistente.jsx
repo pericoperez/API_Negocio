@@ -13,8 +13,6 @@ function CaraAsistente({ estado, mensaje }) {
 
 const euros = (n) =>
   new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 }).format(n);
-const fechaLarga = (iso) =>
-  new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(iso));
 
 // Datos ficticios para probar los casos pedidos
 const EJEMPLOS = [
@@ -474,60 +472,14 @@ export default function Asistente() {
 
       {paso === 'revision' && presupuesto && (
         <div className="revision">
-          <article className="papel" aria-label="Vista previa del presupuesto">
-            <header>
-              <div>
-                <strong>Presupuesta mi web</strong>
-              </div>
-              <h2>PRESUPUESTO</h2>
-            </header>
-            <p className="papel-etq">Cliente</p>
-            <h3>{presupuesto.cliente}</h3>
-            <p className="papel-fecha">Fecha: {fechaLarga(presupuesto.fecha)}</p>
-
-            <h4>Resumen del proyecto</h4>
-            <p>{presupuesto.resumen}</p>
-
-            <h4>Servicios y desglose</h4>
-            <div className="tabla-scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Servicio</th>
-                    <th>Cant.</th>
-                    <th>Precio</th>
-                    <th>Importe</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {presupuesto.lineas.map((l) => (
-                    <tr key={l.id}>
-                      <td>
-                        <strong>{l.nombre}</strong>
-                        <small>{l.descripcion}</small>
-                      </td>
-                      <td>{l.cantidad}</td>
-                      <td>{euros(l.precioUnitario)}</td>
-                      <td><strong>{euros(l.importe)}</strong></td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan={3}>TOTAL</td>
-                    <td>{euros(presupuesto.total)}</td>
-                  </tr>
-                </tfoot>
-              </table>
+          {pdf && (
+            <div className="visor">
+              <iframe className="visor-pdf" src={`${pdf.url}#view=FitH`} title="Previsualización del presupuesto en PDF" />
+              <a className="enlace visor-abrir" href={pdf.url} target="_blank" rel="noopener noreferrer">
+                ¿No se ve el PDF? Ábrelo en una pestaña nueva
+              </a>
             </div>
-
-            <h4>Aclaraciones y aspectos pendientes</h4>
-            <ul>
-              {(presupuesto.aclaraciones.length ? presupuesto.aclaraciones : ['No hay aspectos pendientes de concretar.']).map((a, i) => (
-                <li key={i}>{a}</li>
-              ))}
-            </ul>
-          </article>
+          )}
 
           <aside className="cristal acciones">
             <p className="etiqueta">Total calculado por el servidor</p>
@@ -544,12 +496,6 @@ export default function Asistente() {
             <button className="enlace ancho" onClick={empezarDeNuevo}>
               Empezar un presupuesto nuevo
             </button>
-            {pdf && (
-              <details className="json">
-                <summary>Ver el PDF tal como se descargará</summary>
-                <iframe className="visor-pdf" src={pdf.url} title="Vista previa del PDF" />
-              </details>
-            )}
           </aside>
         </div>
       )}
